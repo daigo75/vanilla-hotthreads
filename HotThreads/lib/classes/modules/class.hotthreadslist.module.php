@@ -9,6 +9,8 @@
 class HotThreadsListModule extends Gdn_Module {
 	// @var Gdn_DataSet The dataset containing the list of the Hot Threads.
 	private $_HotThreads;
+	// @var int The maximum amount of entries to display in the Hot Threads widget.
+	private $_MaxEntries;
 
 	/**
 	 * Class constructor.
@@ -25,6 +27,8 @@ class HotThreadsListModule extends Gdn_Module {
 	public function LoadData($MaxEntries = HOTTHREADS_DEFAULT_MAXENTRIES,
 															$ViewsThreshold = HOTTHREADS_DEFAULT_VIEWSTHRESHOLD,
 															$CommentsThreshold = HOTTHREADS_DEFAULT_COMMENTSTHRESHOLD) {
+		$this->_MaxEntries = $MaxEntries;
+
 		$DiscussionModel = new DiscussionModel();
 		$DiscussionModel->SQL
 			->BeginWhereGroup()
@@ -34,7 +38,7 @@ class HotThreadsListModule extends Gdn_Module {
 			->OrderBy('d.CountComments', 'desc')
 			->OrderBy('d.CountViews', 'desc');
 
-		$this->_HotThreads = $DiscussionModel->Get(0, $MaxEntries);
+		$this->_HotThreads = $DiscussionModel->Get(0, $this->_MaxEntries);
 	}
 
 	/**
@@ -111,7 +115,7 @@ class HotThreadsListModule extends Gdn_Module {
 				<?php
 					// Title uses the word "Discussions", rather than "Threads", because
 					// that is the word that normally identifies threads in the User Interface
-					echo Anchor(T('Hot Discussions'), HOTTHREADS_PAGE_URL);
+					echo Anchor(sprintf(T('Top %d Hot Discussions'), $this->_MaxEntries), HOTTHREADS_PAGE_URL);
 				?>
 			</h4>
 			<ul id="HotThreadsList_Items" class="PanelInfo">

@@ -231,8 +231,8 @@ class HotThreadsPlugin extends Gdn_Plugin {
 
 		// If Auto Update is enabled (delay greater than zero), load and configure
 		// the related JavaScript file
-		if($AutoUpdateDelay = C('Plugin.HotThreadsPlugin.AutoUpdateDelay', HOTTHREADS_DEFAULT_AUTOUPDATEDELAY) > 0) {
-			$this->LoadWidgetAutoRefreshScript($AutoUpdateDelay);
+		if(($AutoUpdateDelay = C('Plugin.HotThreadsPlugin.AutoUpdateDelay', HOTTHREADS_DEFAULT_AUTOUPDATEDELAY)) > 0) {
+			$this->LoadWidgetAutoRefreshScript($Sender, $AutoUpdateDelay);
 		}
 	}
 
@@ -240,15 +240,16 @@ class HotThreadsPlugin extends Gdn_Plugin {
 	 * Loads and configures the JavaScript file containing the script that will
 	 * automatically refresh the Hot Threads Widget.
 	 *
+   * @param Controller Sender Sending controller instance.
 	 * @param int AutoUpdateDelay The delay between each refresh, in seconds.
 	 */
-	protected function LoadWidgetAutoRefreshScript($AutoUpdateDelay = HOTTHREADS_DEFAULT_AUTOUPDATEDELAY) {
+	protected function LoadWidgetAutoRefreshScript($Sender, $AutoUpdateDelay = HOTTHREADS_DEFAULT_AUTOUPDATEDELAY) {
 		// Load the JS file that will handle Widget's auto-refresh
-		$Sender->AddJsFile('hotthreadslist.js', 'plugins/HotThreads/js');
+		$Sender->AddJsFile('hotthreadswidget.js', 'plugins/HotThreads/js');
 
 		// Expose the Auto Update interval to the front-end, so that it can be used
 		// by the JS script
-		$Sender->AddDefinition('HotThreadsWidget.AutoUpdateDelay', $AutoUpdateDelay);
+		$Sender->AddDefinition('HotThreadsWidget_AutoUpdateDelay', $AutoUpdateDelay);
 	}
 
 	/**
@@ -325,19 +326,19 @@ class HotThreadsPlugin extends Gdn_Plugin {
 	 * will be added.
 	 */
 	private function _SetConfigValidationRules(Gdn_Validation $Validation) {
-		$ConfigurationModel->Validation->ApplyRule('Plugin.HotThreadsPlugin.DisplayPageSet', 'Required');
+		$Validation->ApplyRule('Plugin.HotThreadsPlugin.DisplayPageSet', 'Required');
 
-		$ConfigurationModel->Validation->ApplyRule('Plugin.HotThreadsPlugin.AutoUpdateDelay', 'Required');
-		$ConfigurationModel->Validation->ApplyRule('Plugin.HotThreadsPlugin.AutoUpdateDelay', 'Integer');
+		$Validation->ApplyRule('Plugin.HotThreadsPlugin.AutoUpdateDelay', 'Required');
+		$Validation->ApplyRule('Plugin.HotThreadsPlugin.AutoUpdateDelay', 'Integer');
 
-		$ConfigurationModel->Validation->ApplyRule('Plugin.HotThreadsPlugin.MaxEntriesToDisplay', 'Required');
-		$ConfigurationModel->Validation->ApplyRule('Plugin.HotThreadsPlugin.MaxEntriesToDisplay', 'Integer');
+		$Validation->ApplyRule('Plugin.HotThreadsPlugin.MaxEntriesToDisplay', 'Required');
+		$Validation->ApplyRule('Plugin.HotThreadsPlugin.MaxEntriesToDisplay', 'Integer');
 
 		// Thresholds
-		$ConfigurationModel->Validation->ApplyRule('Plugin.HotThreadsPlugin.ViewsThreshold', 'Required');
-		$ConfigurationModel->Validation->ApplyRule('Plugin.HotThreadsPlugin.ViewsThreshold', 'Integer');
-		$ConfigurationModel->Validation->ApplyRule('Plugin.HotThreadsPlugin.CommentsThreshold', 'Required');
-		$ConfigurationModel->Validation->ApplyRule('Plugin.HotThreadsPlugin.CommentsThreshold', 'Integer');
+		$Validation->ApplyRule('Plugin.HotThreadsPlugin.ViewsThreshold', 'Required');
+		$Validation->ApplyRule('Plugin.HotThreadsPlugin.ViewsThreshold', 'Integer');
+		$Validation->ApplyRule('Plugin.HotThreadsPlugin.CommentsThreshold', 'Required');
+		$Validation->ApplyRule('Plugin.HotThreadsPlugin.CommentsThreshold', 'Integer');
 	}
 
 	/**
