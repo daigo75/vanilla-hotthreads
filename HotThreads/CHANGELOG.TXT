@@ -1,0 +1,6 @@
+Hot Threads Plugin for Vanilla Forums
+
+Change log
+
+13.02.07
+- Initial release.

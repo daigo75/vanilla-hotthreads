@@ -1,0 +1,51 @@
+/* HotThreads Plugin */
+
+/**
+{licence}
+*/
+
+/* General CSS for configuration pages sections */
+.HotThreadsPlugin legend {
+	width: 100% !important;
+}
+
+.HotThreadsPlugin fieldset p {
+	padding-left: 20px;
+}
+
+/* Styles for General Settings Page */
+.HotThreadsPlugin .Thresholds ul {
+	list-style: circle;
+	padding-top: 0 !important;
+	margin-top: 1em;
+}
+
+.HotThreadsPlugin .Thresholds li {
+	font-size: 14px;
+}
+
+.HotThreadsPlugin .Thresholds .Title {
+	padding: 0 !important;
+	font-size: 120%;
+}
+
+.HotThreadsPlugin .Aside {
+	width: 400px;
+}
+
+
+/* Menu item with link to Scheduled Discussions (Vanilla 2.1) */
+.FilterMenu .HotThreads {
+	/* TODO Display icon next to the menu entry */
+	background: whitesmoke !important;
+}
+
+/* Tab item - Vanilla 2.0 */
+.HotThreads .TabLink {
+	margin-left: 0.3em;
+}
+
+
+#HotThreadsList .PanelInfo li a {
+	text-align: left;
+}
