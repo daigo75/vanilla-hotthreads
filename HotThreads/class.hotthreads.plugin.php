@@ -224,6 +224,8 @@ class HotThreadsPlugin extends Gdn_Plugin {
 			return;
 		}
 
+		// TODO Read configuration to load multiple Discussion list widgets in a specific order
+
 		// Load the module that will render the Hot Threads widget and add it to the
 		// modules list
 		$HotThreadsPluginModule = $this->LoadHotThreadsModule($Sender);
@@ -257,6 +259,8 @@ class HotThreadsPlugin extends Gdn_Plugin {
 	 * used to updated the widget "on the fly" via Ajax calls.
 	 */
 	public function Controller_GetWidgetContent($Sender) {
+		// TODO Parse Request to determine which data to load and display in the widget
+
 		// Load the module that will render the Hot Threads widget and output the
 		// HTML it generates
 		$HotThreadsPluginModule = $this->LoadHotThreadsModule($Sender);
