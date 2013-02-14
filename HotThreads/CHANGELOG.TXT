@@ -1,6 +1,9 @@
-Hot Threads Plugin for Vanilla Forums
+Hot Threads Plugin for Vanilla Forums 2.0/2.1
 
 Change log
 
 13.02.07
-- Initial release.
+- Initial release
+
+13.02.14
+- Added readme.html

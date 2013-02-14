@@ -94,7 +94,7 @@
 					echo $this->Form->Label(T('Comment Count Threshold'),
 																	'Plugin.HotThreadsPlugin.CommentsThreshold');
 					echo Wrap(T('This value indicates how many comments a Discussion must have ' .
-											'received to be considered "hot"'),
+											'received to be considered "hot".'),
 										'div',
 										array('class' => 'Info',));
 					echo $this->Form->Textbox('Plugin.HotThreadsPlugin.CommentsThreshold');
@@ -103,7 +103,7 @@
 					echo $this->Form->Label(T('View Count Threshold'),
 																	'Plugin.HotThreadsPlugin.ViewsThreshold');
 					echo Wrap(T('This value indicates how many views a Discussion must have ' .
-											'to be considered "hot"'),
+											'to be considered "hot".'),
 										'div',
 										array('class' => 'Info',));
 					echo $this->Form->Textbox('Plugin.HotThreadsPlugin.ViewsThreshold');
