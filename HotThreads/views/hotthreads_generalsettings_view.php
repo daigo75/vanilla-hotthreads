@@ -114,4 +114,10 @@
 			echo $this->Form->Close('Save');
 		?>
 	</div>
+	<div class="Credits">
+		<h3>Credits</h3>
+		<p>
+			Thanks to <a href="http://vanillaforums.org/profile/38268/hgtonight" title="Zach's profile on Vanilla Community">Zach</a>, from Vanilla Community, for the ideas behind this plugin. You can see his work on <a href="http://www.daklutz.com" title="Zach's Website">his website</a>.
+		</p>
+	</div>
 </div>

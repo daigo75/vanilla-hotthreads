@@ -49,3 +49,8 @@
 #HotThreadsList .PanelInfo li a {
 	text-align: left;
 }
+
+/* Credits section */
+.Credits p {
+	padding-left: 20px;
+}
