@@ -30,9 +30,19 @@ class HotThreadsListModule extends Gdn_Module {
 													 $AgeThreshold = HOTTHREADS_DEFAULT_AGETHRESHOLD) {
 		$this->_MaxEntries = $MaxEntries;
 
+		/* Half a day is added to the Age Threshold because we want to give maximum
+		 * priority to all the Discussion whose age is less than, or equal to the
+		 * configured value. Due to the calculation performed to determine priority,
+		 * a Discussion whose age is equal to the threshold would get a priority of
+		 * "1", rather than the correct "0".
+		 * By adding half a day, the calculation will produce a result which is less
+		 * than 1, giving the Discussions the correct priority.
+		 */
+		$AgeThreshold = (int)$AgeThreshold + 0.5;
+
 		$DiscussionModel = new DiscussionModel();
 		$DiscussionModel->SQL
-			->Select('FLOOR((TO_DAYS(NOW())-TO_DAYS(d.DateLastComment))/' . (int)$AgeThreshold . ')', '', 'AgeWeight')
+			->Select('FLOOR((TO_DAYS(NOW())-TO_DAYS(d.DateLastComment))/' . $AgeThreshold . ')', '', 'AgeWeight')
 			->Select('(TO_DAYS(NOW())-TO_DAYS(d.DateLastComment))', '', 'Age')
 			->BeginWhereGroup()
 			->Where('d.CountViews >=', $ViewsThreshold)

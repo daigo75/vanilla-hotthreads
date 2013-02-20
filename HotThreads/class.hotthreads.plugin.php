@@ -128,15 +128,30 @@ class HotThreadsPlugin extends Gdn_Plugin {
 		$DiscussionModel = new DiscussionModel();
 		$DiscussionModel->Watching = TRUE;
 
+
+		/* Half a day is added to the Age Threshold because we want to give maximum
+		 * priority to all the Discussion whose age is less than, or equal to the
+		 * configured value. Due to the calculation performed to determine priority,
+		 * a Discussion whose age is equal to the threshold would get a priority of
+		 * "1", rather than the correct "0".
+		 * By adding half a day, the calculation will produce a result which is less
+		 * than 1, giving the Discussions the correct priority.
+		 */
+		$AgeThreshold = C('Plugin.HotThreads.AgeThreshold', HOTTHREADS_DEFAULT_AGETHRESHOLD);
+		$AgeThreshold = (int)$AgeThreshold + 0.5;
+
 		// Filter the Discussions, keeping only the ones with a certain amount of
 		// Views or Comments
 		$DiscussionModel->SQL
+			->Select('FLOOR((TO_DAYS(NOW())-TO_DAYS(d.DateLastComment))/' . $AgeThreshold . ')', '', 'AgeWeight')
+			->Select('(TO_DAYS(NOW())-TO_DAYS(d.DateLastComment))', '', 'Age')
 			->BeginWhereGroup()
 			->Where('d.CountViews >=', C('Plugin.HotThreads.ViewsThreshold',
 																	 HOTTHREADS_DEFAULT_VIEWSTHRESHOLD))
 			->OrWhere('d.CountComments >=', C('Plugin.HotThreads.CommentsThreshold',
 																				HOTTHREADS_DEFAULT_COMMENTSTHRESHOLD))
 			->EndWhereGroup()
+			->OrderBy('AgeWeight', 'asc')
 			->OrderBy('d.CountComments', 'desc')
 			->OrderBy('d.CountViews', 'desc');
 
@@ -206,7 +221,8 @@ class HotThreadsPlugin extends Gdn_Plugin {
 		$HotThreadsPluginModule->LoadData(
 			C('Plugin.HotThreads.MaxEntriesToDisplay'),
 			C('Plugin.HotThreads.ViewsThreshold'),
-			C('Plugin.HotThreads.CommentsThreshold')
+			C('Plugin.HotThreads.CommentsThreshold'),
+			C('Plugin.HotThreads.AgeThreshold')
 		);
 		return $HotThreadsPluginModule;
 	}
