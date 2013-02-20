@@ -25,16 +25,20 @@ class HotThreadsListModule extends Gdn_Module {
 	 * Loads the list of Hot Discussions.
 	 */
 	public function LoadData($MaxEntries = HOTTHREADS_DEFAULT_MAXENTRIES,
-															$ViewsThreshold = HOTTHREADS_DEFAULT_VIEWSTHRESHOLD,
-															$CommentsThreshold = HOTTHREADS_DEFAULT_COMMENTSTHRESHOLD) {
+													 $ViewsThreshold = HOTTHREADS_DEFAULT_VIEWSTHRESHOLD,
+													 $CommentsThreshold = HOTTHREADS_DEFAULT_COMMENTSTHRESHOLD,
+													 $AgeThreshold = HOTTHREADS_DEFAULT_AGETHRESHOLD) {
 		$this->_MaxEntries = $MaxEntries;
 
 		$DiscussionModel = new DiscussionModel();
 		$DiscussionModel->SQL
+			->Select('FLOOR((TO_DAYS(NOW())-TO_DAYS(d.DateLastComment))/' . (int)$AgeThreshold . ')', '', 'AgeWeight')
+			->Select('(TO_DAYS(NOW())-TO_DAYS(d.DateLastComment))', '', 'Age')
 			->BeginWhereGroup()
 			->Where('d.CountViews >=', $ViewsThreshold)
 			->OrWhere('d.CountComments >=', $CommentsThreshold)
 			->EndWhereGroup()
+			->OrderBy('AgeWeight', 'asc')
 			->OrderBy('d.CountComments', 'desc')
 			->OrderBy('d.CountViews', 'desc');
 

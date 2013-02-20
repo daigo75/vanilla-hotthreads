@@ -22,16 +22,16 @@
 			<ul>
 				<li><?php
 					echo $this->Form->Label(T('Maximum amount of entries to display'),
-																		'Plugin.HotThreadsPlugin.Count');
+																		'Plugin.HotThreads.Count');
 					echo Wrap(T('The Hot Threads widget will display this amount of entries.'),
 										'div',
 										array('class' => 'Info',));
-					echo $this->Form->Textbox('Plugin.HotThreadsPlugin.MaxEntriesToDisplay');
+					echo $this->Form->Textbox('Plugin.HotThreads.MaxEntriesToDisplay');
 				?></li>
 				<li><?php
 					echo $this->Form->Label(T('On which pages would you like to display the widget?'),
-																		'Plugin.HotThreadsPlugin.DisplayPageSet');
-					echo $this->Form->DropDown('Plugin.HotThreadsPlugin.DisplayPageSet',array(
+																		'Plugin.HotThreads.DisplayPageSet');
+					echo $this->Form->DropDown('Plugin.HotThreads.DisplayPageSet',array(
 								HOTTHREADS_PAGESET_ALL => T('Discussions and Announcements'),
 								HOTTHREADS_PAGESET_DISCUSSIONS => T('Only Discussions'),
 								HOTTHREADS_PAGESET_ANNOUNCEMENTS => T('Only Announcements'),
@@ -39,11 +39,11 @@
 				?></li>
 				<li><?php
 					echo $this->Form->Label(T('Refresh Hot Threads widget every X seconds'),
-																	'Plugin.HotThreadsPlugin.AutoUpdateDelay');
+																	'Plugin.HotThreads.AutoUpdateDelay');
 					echo Wrap(T('Set this value to zero to disable automatic refresh.'),
 										'div',
 										array('class' => 'Info',));
-					echo $this->Form->Textbox('Plugin.HotThreadsPlugin.AutoUpdateDelay');
+					echo $this->Form->Textbox('Plugin.HotThreads.AutoUpdateDelay');
 				?></li>
 			</ul>
 		</fieldset>
@@ -91,22 +91,32 @@
 			?></div>
 			<ul>
 				<li><?php
+					echo $this->Form->Label(T('Age Threshold (days)'),
+																	'Plugin.HotThreads.AgeThreshold');
+					echo Wrap(T('This value is used to make sure that old Hot Discussions do not keep ' .
+											'appearing before newer ones. Whenever a Discussion is older than the ' .
+											'specified amount of days, it will get a lower priority in the list.'),
+										'div',
+										array('class' => 'Info',));
+					echo $this->Form->Textbox('Plugin.HotThreads.AgeThreshold');
+				?></li>
+				<li><?php
 					echo $this->Form->Label(T('Comment Count Threshold'),
-																	'Plugin.HotThreadsPlugin.CommentsThreshold');
+																	'Plugin.HotThreads.CommentsThreshold');
 					echo Wrap(T('This value indicates how many comments a Discussion must have ' .
 											'received to be considered "hot".'),
 										'div',
 										array('class' => 'Info',));
-					echo $this->Form->Textbox('Plugin.HotThreadsPlugin.CommentsThreshold');
+					echo $this->Form->Textbox('Plugin.HotThreads.CommentsThreshold');
 				?></li>
 				<li><?php
 					echo $this->Form->Label(T('View Count Threshold'),
-																	'Plugin.HotThreadsPlugin.ViewsThreshold');
+																	'Plugin.HotThreads.ViewsThreshold');
 					echo Wrap(T('This value indicates how many views a Discussion must have ' .
 											'to be considered "hot".'),
 										'div',
 										array('class' => 'Info',));
-					echo $this->Form->Textbox('Plugin.HotThreadsPlugin.ViewsThreshold');
+					echo $this->Form->Textbox('Plugin.HotThreads.ViewsThreshold');
 				?></li>
 			</ul>
 		</fieldset>

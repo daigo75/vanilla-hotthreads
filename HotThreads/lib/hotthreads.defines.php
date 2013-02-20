@@ -21,6 +21,9 @@ define('HOTTHREADS_DEFAULT_VIEWSTHRESHOLD', 100);
 // Default Comments Threshold. A Discussion will be considered "hot" if it
 // received at least this amount of comments
 define('HOTTHREADS_DEFAULT_COMMENTSTHRESHOLD', 10);
+// Default Age Threshold to apply to Discussions to determine their order
+// when they are displayed in the Hot Threads page and widget
+define('HOTTHREADS_DEFAULT_AGETHRESHOLD', 30);
 // Default delay for the automatic updating of the Hot Threads list, in seconds
 define('HOTTHREADS_DEFAULT_AUTOUPDATEDELAY', 120);
 

@@ -5,3 +5,6 @@ Hot Threads Plugin for Vanilla Forums 2.0/2.1 - Change log
 
 13.02.15
 - Added readme.html
+
+13.02.20
+- Added Age Threshold to prioritise newer Hot Discussions

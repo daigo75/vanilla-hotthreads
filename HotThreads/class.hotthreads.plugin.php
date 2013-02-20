@@ -11,7 +11,7 @@ require(PATH_PLUGINS . '/HotThreads/lib/hotthreads.defines.php');
 $PluginInfo['HotThreads'] = array(
 	'Name' => 'Hot Threads',
 	'Description' => 'Displays a list of "hot" discussions, i.e. the ones with most views and/or comments.',
-	'Version' => '13.02.15',
+	'Version' => '13.02.20',
 	'RequiredApplications' => array('Vanilla' => '2.0'),
 	'RequiredTheme' => FALSE,
 	'HasLocale' => FALSE,
@@ -79,7 +79,7 @@ class HotThreadsPlugin extends Gdn_Plugin {
  	 */
 	private function ShouldDisplayWidget($Sender) {
 		// Get the config and controller name for comparison
-		$DisplayPageSet = C('Plugin.HotThreadsPlugin.DisplayPageSet', HOTTHREADS_PAGESET_ALL);
+		$DisplayPageSet = C('Plugin.HotThreads.DisplayPageSet', HOTTHREADS_PAGESET_ALL);
 
 		return InArrayI($Sender->ControllerName, $this->GetDisplayPages($DisplayPageSet));
 	}
@@ -132,9 +132,9 @@ class HotThreadsPlugin extends Gdn_Plugin {
 		// Views or Comments
 		$DiscussionModel->SQL
 			->BeginWhereGroup()
-			->Where('d.CountViews >=', C('Plugin.HotThreadsPlugin.ViewsThreshold',
+			->Where('d.CountViews >=', C('Plugin.HotThreads.ViewsThreshold',
 																	 HOTTHREADS_DEFAULT_VIEWSTHRESHOLD))
-			->OrWhere('d.CountComments >=', C('Plugin.HotThreadsPlugin.CommentsThreshold',
+			->OrWhere('d.CountComments >=', C('Plugin.HotThreads.CommentsThreshold',
 																				HOTTHREADS_DEFAULT_COMMENTSTHRESHOLD))
 			->EndWhereGroup()
 			->OrderBy('d.CountComments', 'desc')
@@ -204,9 +204,9 @@ class HotThreadsPlugin extends Gdn_Plugin {
 
 		$HotThreadsPluginModule = new HotThreadsListModule($Sender);
 		$HotThreadsPluginModule->LoadData(
-			C('Plugin.HotThreadsPlugin.MaxEntriesToDisplay'),
-			C('Plugin.HotThreadsPlugin.ViewsThreshold'),
-			C('Plugin.HotThreadsPlugin.CommentsThreshold')
+			C('Plugin.HotThreads.MaxEntriesToDisplay'),
+			C('Plugin.HotThreads.ViewsThreshold'),
+			C('Plugin.HotThreads.CommentsThreshold')
 		);
 		return $HotThreadsPluginModule;
 	}
@@ -233,7 +233,7 @@ class HotThreadsPlugin extends Gdn_Plugin {
 
 		// If Auto Update is enabled (delay greater than zero), load and configure
 		// the related JavaScript file
-		if(($AutoUpdateDelay = C('Plugin.HotThreadsPlugin.AutoUpdateDelay', HOTTHREADS_DEFAULT_AUTOUPDATEDELAY)) > 0) {
+		if(($AutoUpdateDelay = C('Plugin.HotThreads.AutoUpdateDelay', HOTTHREADS_DEFAULT_AUTOUPDATEDELAY)) > 0) {
 			$this->LoadWidgetAutoRefreshScript($Sender, $AutoUpdateDelay);
 		}
 	}
@@ -330,19 +330,21 @@ class HotThreadsPlugin extends Gdn_Plugin {
 	 * will be added.
 	 */
 	private function _SetConfigValidationRules(Gdn_Validation $Validation) {
-		$Validation->ApplyRule('Plugin.HotThreadsPlugin.DisplayPageSet', 'Required');
+		$Validation->ApplyRule('Plugin.HotThreads.DisplayPageSet', 'Required');
 
-		$Validation->ApplyRule('Plugin.HotThreadsPlugin.AutoUpdateDelay', 'Required');
-		$Validation->ApplyRule('Plugin.HotThreadsPlugin.AutoUpdateDelay', 'Integer');
+		$Validation->ApplyRule('Plugin.HotThreads.AutoUpdateDelay', 'Required');
+		$Validation->ApplyRule('Plugin.HotThreads.AutoUpdateDelay', 'Integer');
 
-		$Validation->ApplyRule('Plugin.HotThreadsPlugin.MaxEntriesToDisplay', 'Required');
-		$Validation->ApplyRule('Plugin.HotThreadsPlugin.MaxEntriesToDisplay', 'Integer');
+		$Validation->ApplyRule('Plugin.HotThreads.MaxEntriesToDisplay', 'Required');
+		$Validation->ApplyRule('Plugin.HotThreads.MaxEntriesToDisplay', 'Integer');
 
 		// Thresholds
-		$Validation->ApplyRule('Plugin.HotThreadsPlugin.ViewsThreshold', 'Required');
-		$Validation->ApplyRule('Plugin.HotThreadsPlugin.ViewsThreshold', 'Integer');
-		$Validation->ApplyRule('Plugin.HotThreadsPlugin.CommentsThreshold', 'Required');
-		$Validation->ApplyRule('Plugin.HotThreadsPlugin.CommentsThreshold', 'Integer');
+		$Validation->ApplyRule('Plugin.HotThreads.AgeThreshold', 'Required');
+		$Validation->ApplyRule('Plugin.HotThreads.AgeThreshold', 'Integer');
+		$Validation->ApplyRule('Plugin.HotThreads.ViewsThreshold', 'Required');
+		$Validation->ApplyRule('Plugin.HotThreads.ViewsThreshold', 'Integer');
+		$Validation->ApplyRule('Plugin.HotThreads.CommentsThreshold', 'Required');
+		$Validation->ApplyRule('Plugin.HotThreads.CommentsThreshold', 'Integer');
 	}
 
 	/**
@@ -357,11 +359,12 @@ class HotThreadsPlugin extends Gdn_Plugin {
 		$Validation = new Gdn_Validation();
 		$ConfigurationModel = new Gdn_ConfigurationModel($Validation);
 		$ConfigurationModel->SetField(array(
-			'Plugin.HotThreadsPlugin.DisplayPageSet' => HOTTHREADS_PAGESET_ALL,
-			'Plugin.HotThreadsPlugin.AutoUpdateDelay'	=> HOTTHREADS_DEFAULT_AUTOUPDATEDELAY,
-			'Plugin.HotThreadsPlugin.MaxEntriesToDisplay'	=> HOTTHREADS_DEFAULT_MAXENTRIES,
-			'Plugin.HotThreadsPlugin.ViewsThreshold'	=> HOTTHREADS_DEFAULT_VIEWSTHRESHOLD,
-			'Plugin.HotThreadsPlugin.CommentsThreshold'	=> HOTTHREADS_DEFAULT_COMMENTSTHRESHOLD
+			'Plugin.HotThreads.DisplayPageSet' => HOTTHREADS_PAGESET_ALL,
+			'Plugin.HotThreads.AutoUpdateDelay'	=> HOTTHREADS_DEFAULT_AUTOUPDATEDELAY,
+			'Plugin.HotThreads.MaxEntriesToDisplay'	=> HOTTHREADS_DEFAULT_MAXENTRIES,
+			'Plugin.HotThreads.AgeThreshold'	=> HOTTHREADS_DEFAULT_AGETHRESHOLD,
+			'Plugin.HotThreads.ViewsThreshold'	=> HOTTHREADS_DEFAULT_VIEWSTHRESHOLD,
+			'Plugin.HotThreads.CommentsThreshold'	=> HOTTHREADS_DEFAULT_COMMENTSTHRESHOLD
 		));
 
 		// Set the model on the form.
@@ -402,11 +405,12 @@ class HotThreadsPlugin extends Gdn_Plugin {
 	 */
 	public function Setup() {
 		// Set Plugin's default settings
-		SaveToConfig('Plugin.HotThreadsPlugin.AutoUpdateDelay', HOTTHREADS_DEFAULT_AUTOUPDATEDELAY);
-		SaveToConfig('Plugin.HotThreadsPlugin.MaxEntriesToDisplay', HOTTHREADS_DEFAULT_MAXENTRIES);
-		SaveToConfig('Plugin.HotThreadsPlugin.DisplayPageSet', HOTTHREADS_PAGESET_ALL);
-		SaveToConfig('Plugin.HotThreadsPlugin.ViewsThreshold', HOTTHREADS_DEFAULT_VIEWSTHRESHOLD);
-		SaveToConfig('Plugin.HotThreadsPlugin.CommentsThreshold', HOTTHREADS_DEFAULT_COMMENTSTHRESHOLD);
+		SaveToConfig('Plugin.HotThreads.AutoUpdateDelay', HOTTHREADS_DEFAULT_AUTOUPDATEDELAY);
+		SaveToConfig('Plugin.HotThreads.MaxEntriesToDisplay', HOTTHREADS_DEFAULT_MAXENTRIES);
+		SaveToConfig('Plugin.HotThreads.DisplayPageSet', HOTTHREADS_PAGESET_ALL);
+		SaveToConfig('Plugin.HotThreads.AgeThreshold', HOTTHREADS_DEFAULT_AGETHRESHOLD);
+		SaveToConfig('Plugin.HotThreads.ViewsThreshold', HOTTHREADS_DEFAULT_VIEWSTHRESHOLD);
+		SaveToConfig('Plugin.HotThreads.CommentsThreshold', HOTTHREADS_DEFAULT_COMMENTSTHRESHOLD);
 	}
 
 	/**
@@ -414,10 +418,11 @@ class HotThreadsPlugin extends Gdn_Plugin {
 	 */
 	public function Cleanup() {
 		// Remove Plugin's settings
-		RemoveFromConfig('Plugin.HotThreadsPlugin.AutoUpdateDelay');
-		RemoveFromConfig('Plugin.HotThreadsPlugin.MaxEntriesToDisplay');
-		RemoveFromConfig('Plugin.HotThreadsPlugin.DisplayPageSet');
-		RemoveFromConfig('Plugin.HotThreadsPlugin.ViewsThreshold');
-		RemoveFromConfig('Plugin.HotThreadsPlugin.CommentsThreshold');
+		RemoveFromConfig('Plugin.HotThreads.AutoUpdateDelay');
+		RemoveFromConfig('Plugin.HotThreads.MaxEntriesToDisplay');
+		RemoveFromConfig('Plugin.HotThreads.DisplayPageSet');
+		RemoveFromConfig('Plugin.HotThreads.AgeThreshold');
+		RemoveFromConfig('Plugin.HotThreads.ViewsThreshold');
+		RemoveFromConfig('Plugin.HotThreads.CommentsThreshold');
 	}
 }
