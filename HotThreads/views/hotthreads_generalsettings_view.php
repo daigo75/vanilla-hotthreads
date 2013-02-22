@@ -84,7 +84,7 @@
 										'<strong>is hot</strong>, since it passed the Comments Threshold.'),
 									'li');
 				echo Wrap(T('The Hot Threads Widget and Page will now display Discussions X and Y. ' .
-										'Discussion Y will appear <strong>before</strong> Discussion Y, because ' .
+										'Discussion Y will appear <strong>before</strong> Discussion X, because ' .
 										'Comments have more weight in determining the "hotness" of a Discussion.'),
 									'li');
 				echo "</ul>\n";
