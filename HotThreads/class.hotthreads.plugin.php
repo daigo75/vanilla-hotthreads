@@ -331,7 +331,7 @@ class HotThreadsPlugin extends Gdn_Plugin {
 	}
 
 	/**
-	 * Renders the default page. Redirects to Settings page.
+	 * Renders the default page.
 	 *
    * @param Controller Sender Sending controller instance.
 	 */
