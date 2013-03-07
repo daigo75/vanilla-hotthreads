@@ -11,7 +11,7 @@ require(PATH_PLUGINS . '/HotThreads/lib/hotthreads.defines.php');
 $PluginInfo['HotThreads'] = array(
 	'Name' => 'Hot Threads',
 	'Description' => 'Displays a list of "hot" discussions, i.e. the ones with most views and/or comments.',
-	'Version' => '13.02.20',
+	'Version' => '13.03.07',
 	'RequiredApplications' => array('Vanilla' => '2.0'),
 	'RequiredTheme' => FALSE,
 	'HasLocale' => FALSE,
@@ -375,6 +375,7 @@ class HotThreadsPlugin extends Gdn_Plugin {
 		$Validation = new Gdn_Validation();
 		$ConfigurationModel = new Gdn_ConfigurationModel($Validation);
 		$ConfigurationModel->SetField(array(
+			'Plugin.HotThreads.HideIfEmpty' => HOTTHREADS_DEFAULT_HIDEIFEMPTY,
 			'Plugin.HotThreads.DisplayPageSet' => HOTTHREADS_PAGESET_ALL,
 			'Plugin.HotThreads.AutoUpdateDelay'	=> HOTTHREADS_DEFAULT_AUTOUPDATEDELAY,
 			'Plugin.HotThreads.MaxEntriesToDisplay'	=> HOTTHREADS_DEFAULT_MAXENTRIES,
@@ -421,6 +422,7 @@ class HotThreadsPlugin extends Gdn_Plugin {
 	 */
 	public function Setup() {
 		// Set Plugin's default settings
+		SaveToConfig('Plugin.HotThreads.HideIfEmpty', HOTTHREADS_DEFAULT_HIDEIFEMPTY);
 		SaveToConfig('Plugin.HotThreads.AutoUpdateDelay', HOTTHREADS_DEFAULT_AUTOUPDATEDELAY);
 		SaveToConfig('Plugin.HotThreads.MaxEntriesToDisplay', HOTTHREADS_DEFAULT_MAXENTRIES);
 		SaveToConfig('Plugin.HotThreads.DisplayPageSet', HOTTHREADS_PAGESET_ALL);
@@ -434,6 +436,7 @@ class HotThreadsPlugin extends Gdn_Plugin {
 	 */
 	public function Cleanup() {
 		// Remove Plugin's settings
+		RemoveFromConfig('Plugin.HotThreads.HideIfEmpty');
 		RemoveFromConfig('Plugin.HotThreads.AutoUpdateDelay');
 		RemoveFromConfig('Plugin.HotThreads.MaxEntriesToDisplay');
 		RemoveFromConfig('Plugin.HotThreads.DisplayPageSet');

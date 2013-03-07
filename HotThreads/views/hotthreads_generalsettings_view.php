@@ -45,6 +45,9 @@
 										array('class' => 'Info',));
 					echo $this->Form->Textbox('Plugin.HotThreads.AutoUpdateDelay');
 				?></li>
+				<li><?php
+					echo $this->Form->Checkbox('Plugin.HotThreads.HideIfEmpty', T('Hide sidebar Widget completely if no Hot Threads are found'));
+				?></li>
 			</ul>
 		</fieldset>
 		<fieldset>

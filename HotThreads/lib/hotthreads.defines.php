@@ -26,6 +26,8 @@ define('HOTTHREADS_DEFAULT_COMMENTSTHRESHOLD', 10);
 define('HOTTHREADS_DEFAULT_AGETHRESHOLD', 30);
 // Default delay for the automatic updating of the Hot Threads list, in seconds
 define('HOTTHREADS_DEFAULT_AUTOUPDATEDELAY', 120);
+// By default, hide Hot Threads widget if no Hot Threads are available
+define('HOTTHREADS_DEFAULT_HIDEIFEMPTY', 1);
 
 // Paths
 define('HOTTHREADS_PLUGIN_PATH', PATH_PLUGINS . '/HotThreads');

@@ -30,10 +30,16 @@ $(document).ready(function(){
 		});
 	}
 
-	// If Auto Update delay is greather than zero, it means it's enabled. In such
-	// case, it starts the auto-refresh loop
-	var AutoUpdateDelay = gdn.definition('HotThreadsWidget_AutoUpdateDelay');
-	if(gdn.definition('HotThreadsWidget_AutoUpdateDelay') > 0) {
-		setTimeout(UpdateHotThreadsWidget, gdn.definition('HotThreadsWidget_AutoUpdateDelay') * 1000);
+	// Hot Threads widget might not exist if there are no Hot Threads to display
+	// and Admins chose to hide it when empty. In such case, there is no point in
+	// trying to automatically update it
+	var HotThreadsWidget = $('#HotThreadsList_Items');
+	if(HotThreadsWidget) {
+		// If Auto Update delay is greather than zero, it means it's enabled. In such
+		// case, it starts the auto-refresh loop
+		var AutoUpdateDelay = gdn.definition('HotThreadsWidget_AutoUpdateDelay');
+		if(gdn.definition('HotThreadsWidget_AutoUpdateDelay') > 0) {
+			setTimeout(UpdateHotThreadsWidget, gdn.definition('HotThreadsWidget_AutoUpdateDelay') * 1000);
+		}
 	}
 });
