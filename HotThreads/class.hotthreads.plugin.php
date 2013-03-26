@@ -215,7 +215,7 @@ class HotThreadsPlugin extends Gdn_Plugin {
  	 */
 	private function LoadHotThreadsModule($Sender) {
 		// Include Hot Threads List module file
-		include_once(HOTTHREADS_PLUGIN_MODULES_PATH . '/class.hotthreadslist.module.php');
+		//include_once(HOTTHREADS_PLUGIN_MODULES_PATH . '/class.hotthreadslist.module.php');
 
 		$HotThreadsPluginModule = new HotThreadsListModule($Sender);
 		$HotThreadsPluginModule->LoadData(
