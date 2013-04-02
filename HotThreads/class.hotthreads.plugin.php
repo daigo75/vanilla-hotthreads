@@ -17,7 +17,7 @@ $PluginInfo['HotThreads'] = array(
 	'HasLocale' => FALSE,
 	'MobileFriendly' => TRUE,
 	'SettingsUrl' => '/plugin/hotthreads',
-	'SettingsPermission' => 'Garden.AdminUser.Only',
+	'SettingsPermission' => 'Garden.Settings.Manage',
 	'Author' => 'D.Zanella',
 	'AuthorEmail' => 'diego@pathtoenlightenment.net',
 	'AuthorUrl' => 'http://dev.pathtoenlightenment.net',
@@ -414,7 +414,7 @@ class HotThreadsPlugin extends Gdn_Plugin {
 	 */
 	public function Base_GetAppSettingsMenuItems_Handler($Sender) {
 		$Menu = $Sender->EventArguments['SideMenu'];
-		$Menu->AddLink('Add-ons', T('Hot Threads'), 'plugin/hotthreads', 'Garden.AdminUser.Only');
+		$Menu->AddLink('Add-ons', T('Hot Threads'), 'plugin/hotthreads', 'Garden.Settings.Manage');
 	}
 
 	/**
