@@ -1,6 +1,3 @@
-/**
-{licence}
-*/
 $(document).ready(function(){
 	/**
 	 * Updates the content of the Hot Threads Widget.

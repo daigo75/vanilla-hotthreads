@@ -1,7 +1,4 @@
 <?php if (!defined('APPLICATION')) exit();
-/**
-{licence}
-*/
 
 /**
  * Renders the widget that displays the top X Hot Threads.

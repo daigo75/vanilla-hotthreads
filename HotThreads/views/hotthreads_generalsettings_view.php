@@ -1,7 +1,4 @@
 <?php if (!defined('APPLICATION')) exit();
-/**
-{licence}
-*/
 ?>
 <div class="HotThreadsPlugin">
 	<div class="Header">

@@ -1,7 +1,4 @@
 <?php if (!defined('APPLICATION')) exit();
-/**
-{licence}
-*/
 
 /**
  * Constants used by HotThreads Plugin.
