@@ -20,7 +20,7 @@ require(PATH_PLUGINS . '/HotThreads/lib/hotthreads.defines.php');
 $PluginInfo['HotThreads'] = array(
 	'Name' => 'Hot Threads',
 	'Description' => 'Displays a list of "hot" discussions, i.e. the ones with most views and/or comments.',
-	'Version' => '13.02.04',
+	'Version' => '14.01.24',
 	'RequiredApplications' => array('Vanilla' => '2.0'),
 	'RequiredTheme' => FALSE,
 	'HasLocale' => FALSE,
