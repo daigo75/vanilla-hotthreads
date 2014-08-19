@@ -20,7 +20,7 @@ require(PATH_PLUGINS . '/HotThreads/lib/hotthreads.defines.php');
 $PluginInfo['HotThreads'] = array(
 	'Name' => 'Hot Threads',
 	'Description' => 'Displays a list of "hot" discussions, i.e. the ones with most views and/or comments.',
-	'Version' => '14.01.24',
+	'Version' => '14.08.19',
 	'RequiredApplications' => array('Vanilla' => '2.0'),
 	'RequiredTheme' => FALSE,
 	'HasLocale' => FALSE,
@@ -149,6 +149,21 @@ class HotThreadsPlugin extends Gdn_Plugin {
 		$AgeThreshold = C('Plugin.HotThreads.AgeThreshold', HOTTHREADS_DEFAULT_AGETHRESHOLD);
 		$AgeThreshold = (int)$AgeThreshold + 0.5;
 
+		// Retrieve the total amount of "hot discussions", for paging purposes
+		$DiscussionModel->SQL
+			->Select('d.DiscussionID', 'COUNT(%s)', 'HotDiscussionsCount')
+			->BeginWhereGroup()
+			->Where('d.CountViews >=', C('Plugin.HotThreads.ViewsThreshold',
+																	 HOTTHREADS_DEFAULT_VIEWSTHRESHOLD))
+			->OrWhere('d.CountComments >=', C('Plugin.HotThreads.CommentsThreshold',
+																				HOTTHREADS_DEFAULT_COMMENTSTHRESHOLD))
+			->EndWhereGroup();
+
+		// Get Discussion Count
+		$DiscussionsCountData = $DiscussionModel->Get()->FirstRow();
+		$CountDiscussions = ($DiscussionsCountData === false) ? 0 : $DiscussionsCountData->HotDiscussionsCount;
+		$Sender->SetData('CountDiscussions', $CountDiscussions);
+
 		// Filter the Discussions, keeping only the ones with a certain amount of
 		// Views or Comments
 		$DiscussionModel->SQL
@@ -166,10 +181,6 @@ class HotThreadsPlugin extends Gdn_Plugin {
 
 		// Get Discussions
 		$Sender->DiscussionData = $DiscussionModel->Get($Page, $Limit);
-
-		// Get Discussion Count
-		$CountDiscussions = $Sender->DiscussionData->NumRows();
-		$Sender->SetData('CountDiscussions', $CountDiscussions);
 
 //		var_dump($Sender->DiscussionData);
 //		die();

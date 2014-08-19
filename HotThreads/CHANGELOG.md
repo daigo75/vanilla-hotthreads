@@ -1,5 +1,8 @@
 #Hot Threads Plugin for Vanilla Forums 2.0/2.1 - Change log
 
+####14.08.19
+* Fixed calculation of the total "hot discussions" used for paging purposes.
+
 ####14.01.24
 * Changed licence to GPLv3.
 
