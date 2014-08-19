@@ -105,7 +105,7 @@ class HotThreadsPlugin extends Gdn_Plugin {
 
 	/**
 	 * Renders the Hot Threads page.
-	 * This method is an almost exact copy of DiscussionController::Index(), with
+	 * This method is an almost exact copy of DiscussionControllers::Index(), with
 	 * the exception that it doesn't load Announcements. Also, it loads only
 	 * Discussions with a certain amount of Views or Comments.
 	 *
