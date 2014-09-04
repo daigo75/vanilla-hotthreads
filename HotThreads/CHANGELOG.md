@@ -1,5 +1,8 @@
 #Hot Threads Plugin for Vanilla Forums 2.0/2.1 - Change log
 
+####14.09.04
+* Fixed bug in parsing of the arguments passed with a `/hotthreads` request.
+
 ####14.08.19
 * Fixed calculation of the total "hot discussions" used for paging purposes.
 

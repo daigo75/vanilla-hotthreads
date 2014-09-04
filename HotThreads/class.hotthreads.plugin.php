@@ -20,7 +20,7 @@ require(PATH_PLUGINS . '/HotThreads/lib/hotthreads.defines.php');
 $PluginInfo['HotThreads'] = array(
 	'Name' => 'Hot Threads',
 	'Description' => 'Displays a list of "hot" discussions, i.e. the ones with most views and/or comments.',
-	'Version' => '14.08.19',
+	'Version' => '14.09.04',
 	'RequiredApplications' => array('Vanilla' => '2.0'),
 	'RequiredTheme' => FALSE,
 	'HasLocale' => FALSE,
@@ -306,9 +306,10 @@ class HotThreadsPlugin extends Gdn_Plugin {
 	/**
 	 * Add Controller to display Hot Threads.
 	 *
-	 * @param Controller Sender Sending controller instance.
+	 * @param Gdn_Controller Sender Sending controller instance.
+	 * @param array Args The arguments passed with the request.
 	 */
-	public function DiscussionsController_HotThreads_Create($Sender) {
+	public function DiscussionsController_HotThreads_Create($Sender, $Args) {
 		// Replace standard View with the "Hot Threads" view
 		$this->ShowHotThreads($Sender, GetValue(0, $Args, 'p1'));
 	}
